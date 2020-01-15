@@ -15,3 +15,10 @@ mybatis:
 logging:
   pattern:
     console: "[%thread] %-5level %logger{36} - %msg%n"
+
+# 自己的支付端的配置
+wx:
+  appid: wx...
+  mchId: ...
+  mchKey: ...
+  notifyUrl: 微信异步通知发送到商户系统（也就是本系统）的apiUrl

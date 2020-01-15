@@ -8,7 +8,8 @@
   </sql>
   
   <select id="queryById" resultType="com.hxl.payx.entity.Category">
-    select <include refid="base_column_list" /> from mall_category where id = #{id}
+    select <include refid="base_column_list" />
+    from mall_category where id = #{id}
   </select>
 
 </mapper>
