@@ -19,4 +19,12 @@ public interface CategoryMapper {
      */
     @Select("select * from mall_category where id = #{id}")
     Category findById(@Param("id") Integer id);
+
+    /**
+     * 使用xml方式 Id 查找对应的分类
+     * @param id
+     * @return Category
+     * @date: 2020/1/15 9:31
+     */
+    Category queryById(Integer id);
 }

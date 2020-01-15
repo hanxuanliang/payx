@@ -12,13 +12,4 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class PayxApplicationTests {
 
-    @Autowired
-    private CategoryMapper categoryMapper;
-
-    @Test
-    public void contextLoads() {
-        Category category = categoryMapper.findById(100001);
-        System.out.println(category.toString());
-    }
-
 }
