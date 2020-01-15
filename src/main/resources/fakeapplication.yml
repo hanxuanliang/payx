@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: your password
+#    mysql8 此处需要加上时区
+    url: jdbc:mysql://127.0.0.1:3306/payx?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+
+mybatis:
+  configuration:
+#    开启驼峰命名
+    map-underscore-to-camel-case: true

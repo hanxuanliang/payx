@@ -4,3 +4,6 @@ target/
 *.iws
 *.iml
 *.ipr
+
+### password ###
+src/main/resources/application.yml
