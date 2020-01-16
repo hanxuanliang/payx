@@ -1,5 +1,6 @@
 package com.hxl.payx.service;
 
+import com.hxl.payx.entity.PayInfo;
 import com.lly835.bestpay.enums.BestPayTypeEnum;
 import com.lly835.bestpay.model.PayResponse;
 import org.springframework.stereotype.Service;
@@ -30,4 +31,12 @@ public interface IPayService {
      * @date: 2020/1/15 17:40
      */
     String asyncNotify(String notiyData);
+
+    /**
+     * 通过订单号查询支付记录
+     * @param orderId 订单号
+     * @return PayInfo 支付详情
+     * @date: 2020/1/16 12:49
+     */
+    PayInfo queryByOrderId(String orderId);
 }

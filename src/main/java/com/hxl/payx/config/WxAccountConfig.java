@@ -21,4 +21,6 @@ public class WxAccountConfig {
     private String mchKey;
 
     private String notifyUrl;
+
+    private String returnUrl;
 }
