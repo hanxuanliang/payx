@@ -1,6 +1,7 @@
 package com.hxl.payx.service;
 
 import com.hxl.payx.PayxApplicationTests;
+import com.lly835.bestpay.enums.BestPayTypeEnum;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +22,6 @@ public class PayServiceImplTest extends PayxApplicationTests {
     @Test
     public void create() {
         // 千万不要使用 new BigDecimal(0.01)
-        iPayService.create("hxl-122", BigDecimal.valueOf(0.01));
+        iPayService.create("hxl-122", BigDecimal.valueOf(0.01), BestPayTypeEnum.WXPAY_NATIVE);
     }
 }

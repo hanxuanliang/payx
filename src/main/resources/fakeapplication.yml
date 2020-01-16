@@ -22,3 +22,9 @@ wx:
   mchId: ...
   mchKey: ...
   notifyUrl: 微信异步通知发送到商户系统（也就是本系统）的apiUrl
+
+alipay:
+  appId: ...
+  privateKey: "..."
+  publicKey: "..."
+  notifyUrl: 支付宝异步通知发送到商户系统（也就是本系统）的apiUrl

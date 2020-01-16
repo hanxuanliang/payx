@@ -13,7 +13,7 @@ public interface CategoryMapper {
 
     /**
      * Id 查找对应分类
-     * @param id
+     * @param id 分类id
      * @return Category
      * @date: 2020/1/15 8:58
      */
@@ -22,7 +22,7 @@ public interface CategoryMapper {
 
     /**
      * 使用xml方式 Id 查找对应的分类
-     * @param id
+     * @param id 分类id
      * @return Category
      * @date: 2020/1/15 9:31
      */
