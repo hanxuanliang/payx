@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @Description: 用户 表单类
+ * @Description: 用户注册 表单
  * @Author: hanxuanliang
  * @Date: 2020/1/29 15:17
  *
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
  * 不为Null：@NotNull
  */
 @Data
-public class UserForm {
+public class UserRegisterForm {
 
     @NotBlank(message = "用户名不能为空")
     private String username;

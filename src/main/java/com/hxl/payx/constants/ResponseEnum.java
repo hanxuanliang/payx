@@ -28,6 +28,8 @@ public enum ResponseEnum {
     PARAM_ERROR(408, "参数错误"),
 
     INTERNAL_ERROR(403, "服务器错误"),
+
+    USERNAME_OR_PASSWORD_ERROR(409, "用户名或者密码错误"),
     ;
 
     Integer code;

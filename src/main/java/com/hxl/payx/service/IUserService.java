@@ -15,5 +15,14 @@ public interface IUserService {
      * @return void
      * @date: 2020/1/29 9:03
      */
-    ResponseVo register(User user);
+    ResponseVo<User> register(User user);
+
+    /**
+     * 登陆
+     * @param username 用户名
+     * @param password 密码
+     * @return ResponseVo 统一返回对象
+     * @date: 2020/1/29 16:27
+     */
+    ResponseVo<User> login(String username, String password);
 }

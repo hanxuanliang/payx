@@ -27,13 +27,22 @@ public class ResponseVo<T> {
 
     private T data;
 
-    public ResponseVo(Integer code, String msg) {
+    private ResponseVo(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
+    private ResponseVo(Integer code, T data) {
+        this.code = code;
+        this.data = data;
+    }
+
     public static <T> ResponseVo<T> success() {
         return new ResponseVo<T>(ResponseEnum.SUCCESS.getCode(), ResponseEnum.SUCCESS.getDesc());
+    }
+
+    public static <T> ResponseVo<T> success(T data) {
+        return new ResponseVo<T>(ResponseEnum.SUCCESS.getCode(), data);
     }
 
     public static <T> ResponseVo<T> error(ResponseEnum responseEnum) {
