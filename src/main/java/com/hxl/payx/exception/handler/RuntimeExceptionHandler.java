@@ -1,4 +1,4 @@
-package com.hxl.payx.exception;
+package com.hxl.payx.exception.handler;
 
 import com.hxl.payx.constants.ResponseEnum;
 import com.hxl.payx.vo.ResponseVo;
@@ -19,7 +19,7 @@ public class RuntimeExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ResponseVo handle(RuntimeException exception) {
+    public ResponseVo<String> runtimeHandle(RuntimeException exception) {
         return ResponseVo.error(ResponseEnum.INTERNAL_ERROR, exception.getMessage());
     }
 }

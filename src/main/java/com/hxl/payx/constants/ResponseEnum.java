@@ -15,7 +15,7 @@ public enum ResponseEnum {
      * 响应状态枚举，包括错误码，错误信息
      * @date: 2020/1/29 11:34
      */
-    SUCCESS(201, "注册成功"),
+    SUCCESS(201, "操作成功"),
 
     PASSWORD_ERROR(401, "密码错误"),
 

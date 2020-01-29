@@ -10,6 +10,7 @@ mybatis:
   configuration:
 #    开启驼峰命名
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mappers/*.xml
 
 logging:
@@ -30,3 +31,8 @@ alipay:
   publicKey: "..."
   notifyUrl: 支付宝异步通知发送到商户系统（也就是本系统）的apiUrl
   returnUrl: ...
+
+server:
+  servlet:
+    session:
+      timeout: 120

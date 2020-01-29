@@ -1,7 +1,6 @@
 package com.hxl.payx.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hxl.payx.constants.ResponseEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;

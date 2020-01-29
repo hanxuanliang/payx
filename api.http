@@ -1,0 +1,16 @@
+### login test
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+### getUserInfo test
+GET {{baseUrl}}/user
+Content-Type: application/json
+
+### logout test
+POST {{baseUrl}}/user/logout
+Content-Type: application/json
