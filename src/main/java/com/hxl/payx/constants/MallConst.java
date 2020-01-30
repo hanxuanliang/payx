@@ -8,4 +8,6 @@ package com.hxl.payx.constants;
 public class MallConst {
 
     public static final String CURRENTUSER = "currentUser";
+
+    public static final Integer ROOT_PARENT_ID = 0;
 }

@@ -14,3 +14,9 @@ Content-Type: application/json
 ### logout test
 POST {{baseUrl}}/user/logout
 Content-Type: application/json
+
+### getAllCategory test
+GET {{baseUrl}}/categories
+Content-Type: application/json
+
+###
