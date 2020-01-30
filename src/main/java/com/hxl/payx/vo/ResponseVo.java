@@ -53,6 +53,7 @@ public class ResponseVo<T> {
     }
 
     public static <T> ResponseVo<T> error(ResponseEnum responseEnum, BindingResult result) {
-        return new ResponseVo<T>(responseEnum.getCode(), Objects.requireNonNull(result.getFieldError()).getField() + " " + result.getFieldError().getDefaultMessage());
+        return new ResponseVo<T>(responseEnum.getCode(),
+                Objects.requireNonNull(result.getFieldError()).getField() + " " + result.getFieldError().getDefaultMessage());
     }
 }

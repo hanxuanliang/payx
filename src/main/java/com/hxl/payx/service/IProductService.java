@@ -1,9 +1,9 @@
 package com.hxl.payx.service;
 
+import com.github.pagehelper.PageInfo;
+import com.hxl.payx.vo.ProductDetailVo;
 import com.hxl.payx.vo.ProductVo;
 import com.hxl.payx.vo.ResponseVo;
-
-import java.util.List;
 
 /**
  * @Description: 商品 service
@@ -12,5 +12,7 @@ import java.util.List;
  */
 public interface IProductService {
 
-    ResponseVo<List<ProductVo>> getPageOfProduct(Integer categoryId, Integer pageNum, Integer pageSize);
+    ResponseVo<PageInfo<ProductVo>> getPageOfProduct(Integer categoryId, Integer pageNum, Integer pageSize);
+
+    ResponseVo<ProductDetailVo> getProductDetail(Integer productId);
 }

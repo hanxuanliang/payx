@@ -27,5 +27,6 @@ public interface ProductMapper {
 
     int updateByPrimaryKey(Product record);
 
+    // 非基本类型需要使用@Param指定参数是什么
     List<Product> findByCategoryIds(@Param("categoryIdSet") Set<Integer> categoryIdSet);
 }

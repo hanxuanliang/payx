@@ -74,6 +74,14 @@ public class CategoryServiceImpl implements ICategoryService {
         }
     }
 
+    /**
+     * 找到以parentId为parent_id的子目录
+     * @param parentId 父类目id
+     * @param resultSet 结果集
+     * @param categories 查询数据库所得的所有类目数据
+     * @return void 其实是在函数里面改变resultSet结果集的数据
+     * @date: 2020/1/30 15:35
+     */
     private void findSubCategoryId(Integer parentId, Set<Integer> resultSet, List<Category> categories) {
         for (Category category: categories) {
             if (category.getParentId().equals(parentId)) {

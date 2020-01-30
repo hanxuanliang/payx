@@ -27,11 +27,14 @@ public enum ResponseEnum {
 
     PARAM_ERROR(408, "参数错误"),
 
-    INTERNAL_ERROR(403, "服务器错误"),
+    INTERNAL_ERROR(402, "服务器错误"),
 
     USERNAME_OR_PASSWORD_ERROR(409, "用户名或者密码错误"),
+
+    PRODUCT_DOWM_OR_DELETE(303, "商品下架或删除"),
     ;
 
     Integer code;
+
     String desc;
 }

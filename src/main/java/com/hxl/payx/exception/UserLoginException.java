@@ -5,4 +5,8 @@ package com.hxl.payx.exception;
  * @Author: hanxuanliang
  * @Date: 2020/1/29 18:02
  */
-public class UserLoginException extends RuntimeException { }
+public class UserLoginException extends RuntimeException {
+    public UserLoginException(String message) {
+        super(message);
+    }
+}

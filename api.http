@@ -19,4 +19,24 @@ Content-Type: application/json
 GET {{baseUrl}}/categories
 Content-Type: application/json
 
+### getPageOfProduct test1: no params
+GET {{baseUrl}}/pages
+Content-Type: application/json
+
+### getPageOfProduct test2: pageNum, pageSize
+GET {{baseUrl}}/pages?pageNum=1&pageSize=2
+Content-Type: application/json
+
+### getPageOfProduct test3: category, pageSize, pageNum
+GET {{baseUrl}}/pages/100002?pageNum=1&pageSize=2
+Content-Type: application/json
+
+### getPageOfProduct test4: category
+GET {{baseUrl}}/pages/100002
+Content-Type: application/json
+
+### getProductDetail test
+GET {{baseUrl}}/product/26
+Content-Type: application/json
+
 ###

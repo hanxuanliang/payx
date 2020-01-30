@@ -1,6 +1,7 @@
 package com.hxl.payx.interceptor;
 
 import com.hxl.payx.constants.MallConst;
+import com.hxl.payx.constants.ResponseEnum;
 import com.hxl.payx.entity.User;
 import com.hxl.payx.exception.UserLoginException;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class UserLoginStatus implements HandlerInterceptor {
         if (currentUser == null) {
             log.error("user login Status is Blank");
             // 交由全局异常，其实也是AOP处理方式
-            throw new UserLoginException();
+            throw new UserLoginException(ResponseEnum.NEED_LOGIN.getDesc());
         }
         return true;
     }
