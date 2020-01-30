@@ -1,12 +1,14 @@
 package com.hxl.payx.dao;
 
 import com.hxl.payx.entity.User;
+import org.springframework.stereotype.Repository;
 
 /**
  * @Description: 用户 mapper
  * @Author: hanxuanliang
  * @Date: 2020/1/29 8:52
  */
+@Repository
 public interface UserMapper {
 
     int deleteByPrimaryKey(Integer id);

@@ -4,6 +4,7 @@ import com.hxl.payx.vo.CategoryVo;
 import com.hxl.payx.vo.ResponseVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Description: 类目 service
@@ -17,4 +18,13 @@ public interface ICategoryService {
      * @date: 2020/1/29 22:05
      */
     ResponseVo<List<CategoryVo>> selectAllCategory();
+
+    /**
+     * 查询子类目
+     * @param parentId 类目父id
+     * @param resultSet 类目set集合
+     * @return void
+     * @date: 2020/1/30 11:47
+     */
+    void findSubCategoryId(Integer parentId, Set<Integer> resultSet);
 }

@@ -1,6 +1,7 @@
 package com.hxl.payx.dao;
 
 import com.hxl.payx.entity.Category;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @Author: hanxuanliang
  * @Date: 2020/1/15 8:55
  */
+@Repository
 public interface CategoryMapper {
 
     int deleteByPrimaryKey(Integer id);
