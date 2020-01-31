@@ -32,6 +32,10 @@ public enum ResponseEnum {
     USERNAME_OR_PASSWORD_ERROR(409, "用户名或者密码错误"),
 
     PRODUCT_DOWM_OR_DELETE(303, "商品下架或删除"),
+
+    PRODUCT_NOT_EXIST(305, "商品不存在"),
+
+    PRODUCT_STOCK_NOT_ENOUGH(307, "库存不足"),
     ;
 
     Integer code;

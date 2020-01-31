@@ -10,4 +10,6 @@ public class MallConst {
     public static final String CURRENTUSER = "currentUser";
 
     public static final Integer ROOT_PARENT_ID = 0;
+
+    public static final String REDIS_CART_TEMPLATE_KEY = "cart_%d";
 }

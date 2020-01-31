@@ -40,12 +40,7 @@ public class UserController {
      * json 是组装成一个整体json字符串
      */
     @PostMapping("/user/register")
-    public ResponseVo<User> register(@Valid @RequestBody UserRegisterForm userRegisterForm, BindingResult result) {
-        if (result.hasErrors()) {
-            log.error("注册提交的参数有误：{}", Objects.requireNonNull(result.getFieldError()).getDefaultMessage());
-            return ResponseVo.error(ResponseEnum.PARAM_ERROR, result);
-        }
-
+    public ResponseVo<User> register(@Valid @RequestBody UserRegisterForm userRegisterForm) {
         User user = new User();
         BeanUtils.copyProperties(userRegisterForm, user);
         return userService.register(user);
@@ -53,11 +48,7 @@ public class UserController {
 
     @PostMapping("/user/login")
     public ResponseVo<User> login(@Valid @RequestBody UserLoginForm userLoginForm,
-                                  BindingResult result, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            log.error("登录提交的参数有误：{}", Objects.requireNonNull(result.getFieldError()).getDefaultMessage());
-            return ResponseVo.error(ResponseEnum.PARAM_ERROR, result);
-        }
+                                  HttpServletRequest request) {
         ResponseVo<User> userResponseVo = userService.login(userLoginForm.getUsername(), userLoginForm.getPassword());
         // 设置Session
         HttpSession session = request.getSession();

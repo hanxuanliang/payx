@@ -39,4 +39,12 @@ Content-Type: application/json
 GET {{baseUrl}}/product/26
 Content-Type: application/json
 
+### addCart test
+POST {{baseUrl}}/cart
+Content-Type: application/json
+
+{
+
+}
+
 ###

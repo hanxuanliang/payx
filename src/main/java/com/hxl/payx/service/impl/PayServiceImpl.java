@@ -46,7 +46,7 @@ public class PayServiceImpl implements IPayService {
         payInfoMapper.insertSelective(payInfo);
 
         PayRequest payRequest = new PayRequest();
-        payRequest.setOrderName("6805711-Hree");
+        payRequest.setOrderName("6805711-Hree");    // replaceKey: 448279, 8034816
         payRequest.setOrderId(orderId);
         payRequest.setOrderAmount(amount.doubleValue());
         payRequest.setPayTypeEnum(payTypeEnum);
