@@ -13,11 +13,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Cart {
 
     private Integer productId;
 
-    private Integer quantity;
+    @Builder.Default
+    private Integer quantity = 1;
 
     private Boolean productSelected;
 

@@ -12,7 +12,9 @@ import com.hxl.payx.service.ICartService;
 import com.hxl.payx.vo.CartVo;
 import com.hxl.payx.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +31,13 @@ public class CartServiceImpl implements ICartService {
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    private Gson gson = new Gson();
+    private final Gson gson;
 
     @Autowired
-    public CartServiceImpl(ProductMapper productMapper, StringRedisTemplate stringRedisTemplate) {
+    public CartServiceImpl(ProductMapper productMapper, StringRedisTemplate stringRedisTemplate, Gson gson) {
         this.productMapper = productMapper;
         this.stringRedisTemplate = stringRedisTemplate;
+        this.gson = gson;
     }
 
     @Override
@@ -54,10 +57,19 @@ public class CartServiceImpl implements ICartService {
         }
         // 4.写入redis  key:cart_cartUid
         String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
-        Cart cart = new Cart(product.getId(), 1, cartAddForm.getSelected());
-        log.info("redisKey: {}", redisKey);
-        log.info("cart: {}", cart);
-        stringRedisTemplate.opsForValue().set(redisKey, gson.toJson(cart));
+        Cart cart;
+
+        HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
+
+        String cartData = opsHash.get(redisKey, String.valueOf(product.getId()));
+        if (StringUtils.isEmpty(cartData)) {
+            cart = Cart.builder().productId(product.getId()).productSelected(cartAddForm.getSelected()).build();
+        } else {
+            cart = gson.fromJson(cartData, Cart.class);
+            cart.setQuantity(cart.getQuantity() + 1);
+        }
+
+        opsHash.put(redisKey, String.valueOf(product.getId()), gson.toJson(cart));
         
         return null;
     }

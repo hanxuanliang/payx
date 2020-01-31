@@ -15,11 +15,13 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CartAddForm {
 
     @NotNull
     private Integer productId;
 
+    @Builder.Default
     private Boolean selected = true;
 
 }

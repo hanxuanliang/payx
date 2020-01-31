@@ -21,8 +21,11 @@ public class CartServiceImplTest extends PayxApplicationTests {
 
     @Test
     public void addtoCart() {
-        CartAddForm cartAddForm = new CartAddForm(26, true);
-        log.info("cartAddForm: {}", cartAddForm);
-        cartService.addtoCart(1, cartAddForm);
+        CartAddForm cartAddForm = CartAddForm.builder().productId(26).build();
+        CartAddForm cartAddForm1 = CartAddForm.builder().productId(26).build();
+        CartAddForm cartAddForm2 = CartAddForm.builder().productId(27).build();
+        cartService.addtoCart(101, cartAddForm);
+        cartService.addtoCart(101, cartAddForm1);
+        cartService.addtoCart(101, cartAddForm2);
     }
 }
