@@ -1,6 +1,7 @@
 package com.hxl.payx.service;
 
 import com.hxl.payx.form.CartAddForm;
+import com.hxl.payx.form.CartUpdateForm;
 import com.hxl.payx.vo.CartVo;
 import com.hxl.payx.vo.ResponseVo;
 
@@ -12,4 +13,8 @@ import com.hxl.payx.vo.ResponseVo;
 public interface ICartService {
 
     ResponseVo<CartVo> addtoCart(Integer cartUid, CartAddForm cartAddForm);
+
+    ResponseVo<CartVo> updateCart(Integer cartUid, Integer productId, CartUpdateForm cartUpdateForm);
+
+    ResponseVo<CartVo> deleteFromCart(Integer cartUids, Integer productId);
 }

@@ -8,6 +8,7 @@ import com.hxl.payx.dao.ProductMapper;
 import com.hxl.payx.entity.Cart;
 import com.hxl.payx.entity.Product;
 import com.hxl.payx.form.CartAddForm;
+import com.hxl.payx.form.CartUpdateForm;
 import com.hxl.payx.service.ICartService;
 import com.hxl.payx.vo.CartProductVo;
 import com.hxl.payx.vo.CartVo;
@@ -76,11 +77,50 @@ public class CartServiceImpl implements ICartService {
         }
 
         opsHash.put(redisKey, String.valueOf(product.getId()), gson.toJson(cart));
-        
-        return null;
+
+        return list(cartUid);
     }
 
-    public ResponseVo<CartVo> list(Integer cartUid) {
+    @Override
+    public ResponseVo<CartVo> updateCart(Integer cartUid, Integer productId, CartUpdateForm cartUpdateForm) {
+        String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
+
+        HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
+
+        String cartData = opsHash.get(redisKey, String.valueOf(productId));
+        // 没有该商品，return相应的错误即可
+        if (!StringUtils.isEmpty(cartData)) {
+            Cart cart = gson.fromJson(cartData, Cart.class);
+            // 如果有该商品，则看修改条件，按需修改购物车中的商品数据
+            if (cartUpdateForm.getQuatity() != null && cartUpdateForm.getQuatity() >= 0) {
+                cart.setQuantity(cartUpdateForm.getQuatity());
+            }
+            if (cartUpdateForm.getSelected() != null) {
+                cart.setProductSelected(cartUpdateForm.getSelected());
+            }
+            opsHash.put(redisKey, String.valueOf(productId), gson.toJson(cart));
+            return list(cartUid);
+        }
+        return ResponseVo.error(ResponseEnum.CART_PRODUCT_NOT_EXIST);
+    }
+
+    @Override
+    public ResponseVo<CartVo> deleteFromCart(Integer cartUid, Integer productId) {
+
+        String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
+
+        HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
+
+        String cartData = opsHash.get(redisKey, String.valueOf(productId));
+        // 没有该商品，return相应的错误即可
+        if (!StringUtils.isEmpty(cartData)) {
+            opsHash.delete(redisKey, String.valueOf(productId));
+            return list(cartUid);
+        }
+        return ResponseVo.error(ResponseEnum.CART_PRODUCT_NOT_EXIST);
+    }
+
+    private ResponseVo<CartVo> list(Integer cartUid) {
         String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
         HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
 
