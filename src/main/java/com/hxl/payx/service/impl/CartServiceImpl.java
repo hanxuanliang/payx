@@ -9,6 +9,7 @@ import com.hxl.payx.entity.Cart;
 import com.hxl.payx.entity.Product;
 import com.hxl.payx.form.CartAddForm;
 import com.hxl.payx.service.ICartService;
+import com.hxl.payx.vo.CartProductVo;
 import com.hxl.payx.vo.CartVo;
 import com.hxl.payx.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: 购物车 service 实现类
@@ -72,5 +78,101 @@ public class CartServiceImpl implements ICartService {
         opsHash.put(redisKey, String.valueOf(product.getId()), gson.toJson(cart));
         
         return null;
+    }
+
+    public ResponseVo<CartVo> list(Integer cartUid) {
+        String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
+        HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
+
+        List<Integer> productIds = getcartForIds(cartUid);
+        List<Product> productsInCart = productMapper.findByProductIds(productIds);
+        Map<String, String> entries = opsHash.entries(redisKey);
+
+        CartVo cartVo = buildCartVo(productsInCart, entries);
+
+        return ResponseVo.success(cartVo);
+    }
+
+    /**
+     * 构造接口返回的CartVo
+     * @param productsInCart 查询Productid范围的mapper返回的购物车中的Product集合
+     * @param entries 查询rediskey返回的hash entries
+     * @return 返回构造好的CartVo
+     * @date: 2020/2/1 14:11
+     */
+    private CartVo buildCartVo(List<Product> productsInCart, Map<String, String> entries) {
+        CartVo cartVo = new CartVo();
+        List<CartProductVo> cartProductVoList = new ArrayList<>();
+
+        CartProductVo cartProductVo;
+        boolean selectAll = true;   // 是否全选
+        BigDecimal cartTotalPrice = BigDecimal.ZERO;  // 总价格
+        Integer cartTotalQuantity = 0;    // 购物车商品总数
+
+        for (Map.Entry<String, String> entry : entries.entrySet()) {
+            Integer productId = Integer.valueOf(entry.getKey());
+            Cart cartData = gson.fromJson(entry.getValue(), Cart.class);
+
+            for (Product product : productsInCart) {
+                if (product.getId().equals(productId)) {
+                    cartProductVo = new CartProductVo(productId,
+                            cartData.getQuantity(),
+                            product.getName(),
+                            product.getSubtitle(),
+                            product.getMainImage(),
+                            product.getPrice(),
+                            product.getStatus(),
+                            product.getPrice().multiply(BigDecimal.valueOf(cartData.getQuantity())),
+                            product.getStock(),
+                            cartData.getProductSelected()
+                    );
+                    cartProductVoList.add(cartProductVo);
+                    if(!cartData.getProductSelected()){
+                        selectAll = false;
+                    }
+                    if(cartData.getProductSelected()){
+                        cartTotalPrice = cartTotalPrice.add(cartProductVo.getProductTotalPrice());
+                    }
+                }
+                cartTotalQuantity += cartData.getQuantity();
+            }
+            cartVo.setCartProductVoList(cartProductVoList);
+            cartVo.setSelectedAll(selectAll);
+            cartVo.setCartTotalQuantity(cartTotalQuantity);
+            cartVo.setCartTotalPrice(cartTotalPrice);
+        }
+        return cartVo;
+    }
+
+    /**
+     * 查询redis中的购物车id，得到的Productids集合
+     * @param cartUid redis中购物车id
+     * @return Productids集合
+     * @date: 2020/2/1 14:16
+     */
+    private List<Integer> getcartForIds(Integer cartUid) {
+        List<Integer> cartForIds = new ArrayList<>();
+        HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
+        String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
+
+        Map<String, String> entries = opsHash.entries(redisKey);
+
+        entries.forEach((key, cartData) -> cartForIds.add(Integer.valueOf(key)));
+        return cartForIds;
+    }
+
+    /**
+     * 获取redis中存储的购物车中的存储的商品数据
+     * @param cartUid redis中的购物车的Uid
+     * @return List<Cart> cart数据集合
+     * @date: 2020/1/31 21:35  
+     */
+    private void getForCart(Integer cartUid, List<Cart> cartList) {
+        HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
+        String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
+
+        Map<String, String> entries = opsHash.entries(redisKey);
+
+        entries.forEach((key, cartData) -> cartList.add(gson.fromJson(cartData, Cart.class)));
     }
 }

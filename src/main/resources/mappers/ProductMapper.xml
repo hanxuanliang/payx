@@ -187,4 +187,20 @@
     </if>
   </select>
 
+  <select id="findByProductIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from mall_product
+    where
+    <if test="productIdList.size > 0">
+      id in
+      <foreach collection="productIdList" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="productIdList.size == 0">
+      1=0
+    </if>
+  </select>
+
 </mapper>
