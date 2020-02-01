@@ -9,6 +9,8 @@ import com.hxl.payx.service.impl.CartServiceImpl;
 import com.hxl.payx.vo.CartVo;
 import com.hxl.payx.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,26 +28,44 @@ public class CartServiceImplTest extends PayxApplicationTests {
     // 比较好的方式去格式化美化输出的json字符串
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    @Test
+    private Integer cartUid = 101;
+
+    private Integer productId = 26;
+
+    @Before
     public void addtoCart() {
         CartAddForm cartAddForm = CartAddForm.builder().productId(26).build();
-        CartAddForm cartAddForm1 = CartAddForm.builder().productId(26).build();
-        CartAddForm cartAddForm2 = CartAddForm.builder().productId(27).build();
-        ResponseVo<CartVo> cartVoResponseVo = cartService.addtoCart(101, cartAddForm);
-        ResponseVo<CartVo> cartVoResponseVo1 = cartService.addtoCart(101, cartAddForm1);
-        ResponseVo<CartVo> cartVoResponseVo2 = cartService.addtoCart(101, cartAddForm2);
-    }
-
-    @Test
-    public void getForProductIds() {
-//        ResponseVo<CartVo> result = cartService.list(101);
-//        log.info("result: {}", gson.toJson(result));
+        CartAddForm cartAddForm1 = CartAddForm.builder().productId(29).build();
+        ResponseVo<CartVo> cartVoResponseVo = cartService.addtoCart(cartUid, cartAddForm);
+        ResponseVo<CartVo> cartVoResponseVo1 = cartService.addtoCart(cartUid, cartAddForm1);
     }
 
     @Test
     public void updateCart() {
-        CartUpdateForm cartUpdateForm = CartUpdateForm.builder().quatity(4).selected(false).build();
-        ResponseVo<CartVo> cartVoResponseVo = cartService.updateCart(101, 26, cartUpdateForm);
+        CartUpdateForm cartUpdateForm = CartUpdateForm.builder()
+                .quatity(4).selected(false)
+                .build();
+        ResponseVo<CartVo> cartVoResponseVo = cartService.updateCart(cartUid, productId, cartUpdateForm);
+        log.info("cartVoResponseVo: {}", gson.toJson(cartVoResponseVo));
+    }
+
+    @Test
+    public void selectOps() {
+//        ResponseVo<CartVo> cartVoResponseVo = cartService.selectAll(101);
+//        log.info("cartVoResponseVo: {}", gson.toJson(cartVoResponseVo));
+        ResponseVo<CartVo> cartVoResponseVo = cartService.selectNone(cartUid);
+        log.info("cartVoResponseVo: {}", gson.toJson(cartVoResponseVo));
+    }
+
+    @Test
+    public void sumInCartProducts() {
+        ResponseVo<Integer> integerResponseVo = cartService.sumInCartProducts(cartUid);
+        log.info("cartVoResponseVo: {}", gson.toJson(integerResponseVo));
+    }
+
+    @After
+    public void deleteFromCart() {
+        ResponseVo<CartVo> cartVoResponseVo = cartService.deleteFromCart(cartUid, productId);
         log.info("cartVoResponseVo: {}", gson.toJson(cartVoResponseVo));
     }
 }

@@ -17,4 +17,10 @@ public interface ICartService {
     ResponseVo<CartVo> updateCart(Integer cartUid, Integer productId, CartUpdateForm cartUpdateForm);
 
     ResponseVo<CartVo> deleteFromCart(Integer cartUids, Integer productId);
+
+    ResponseVo<CartVo> selectAll(Integer cartUid);
+
+    ResponseVo<CartVo> selectNone(Integer cartUid);
+
+    ResponseVo<Integer> sumInCartProducts(Integer cartUid);
 }

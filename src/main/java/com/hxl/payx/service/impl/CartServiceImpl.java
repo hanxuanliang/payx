@@ -120,6 +120,36 @@ public class CartServiceImpl implements ICartService {
         return ResponseVo.error(ResponseEnum.CART_PRODUCT_NOT_EXIST);
     }
 
+    @Override
+    public ResponseVo<CartVo> selectAll(Integer cartUid) {
+        String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
+        HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
+
+        for (Cart cart : getForCart(cartUid)) {
+            cart.setProductSelected(true);
+            opsHash.put(redisKey, String.valueOf(cart.getProductId()), gson.toJson(cart));
+        }
+        return list(cartUid);
+    }
+
+    @Override
+    public ResponseVo<CartVo> selectNone(Integer cartUid) {
+        String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
+        HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
+
+        for (Cart cart : getForCart(cartUid)) {
+            cart.setProductSelected(false);
+            opsHash.put(redisKey, String.valueOf(cart.getProductId()), gson.toJson(cart));
+        }
+        return list(cartUid);
+    }
+
+    @Override
+    public ResponseVo<Integer> sumInCartProducts(Integer cartUid) {
+        Integer cartProductsSum = getForCart(cartUid).stream().map(Cart::getQuantity).reduce(0, Integer::sum);
+        return ResponseVo.success(cartProductsSum);
+    }
+
     private ResponseVo<CartVo> list(Integer cartUid) {
         String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
         HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
@@ -205,14 +235,16 @@ public class CartServiceImpl implements ICartService {
      * 获取redis中存储的购物车中的存储的商品数据
      * @param cartUid redis中的购物车的Uid
      * @return List<Cart> cart数据集合
-     * @date: 2020/1/31 21:35  
+     * @date: 2020/2/1 16:57
      */
-    private void getForCart(Integer cartUid, List<Cart> cartList) {
+    private List<Cart> getForCart(Integer cartUid) {
+        List<Cart> cartList = new ArrayList<>();
         HashOperations<String, String, String> opsHash = stringRedisTemplate.opsForHash();
         String redisKey = String.format(MallConst.REDIS_CART_TEMPLATE_KEY, cartUid);
 
         Map<String, String> entries = opsHash.entries(redisKey);
 
         entries.forEach((key, cartData) -> cartList.add(gson.fromJson(cartData, Cart.class)));
+        return cartList;
     }
 }
